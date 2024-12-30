@@ -7,10 +7,11 @@ namespace MrovWeathers
 {
 	public class Blackout : MonoBehaviour
 	{
-		List<Light> AllPoweredLights = [];
-		Dictionary<GrabbableObject, Light> Flashlights = [];
-
 		private MrovLib.Logger Logger = new("Blackout");
+
+		List<Light> AllPoweredLights = [];
+		List<HDAdditionalLightData> Floodlights = [];
+
 
 		private float FloodlightRange = 44;
 		private float FloodlightAngle = 116.7f;
@@ -207,6 +208,8 @@ namespace MrovWeathers
 						hdLight.SetIntensity(30000);
 						hdLight.SetSpotAngle(120);
 						hdLight.SetRange(600);
+
+						Floodlights.Add(hdLight);
 					}
 				}
 			}
@@ -236,30 +239,16 @@ namespace MrovWeathers
 				return;
 			}
 
+			// revert floodlights to their original state
+			foreach (UnityEngine.Rendering.HighDefinition.HDAdditionalLightData hdLight in Floodlights)
+			{
+				hdLight.SetIntensity(FloodlightIntensity);
+				hdLight.SetSpotAngle(FloodlightAngle);
+				hdLight.SetRange(FloodlightRange);
+			}
+
 			AllPoweredLights.Clear();
-
-			try
-			{
-				// revert all lights to their original state
-				Transform FloodlightParentTransform = GameObject.Find("ShipLightsPost").GetComponent<Transform>();
-				List<Light> floodlights = LightUtils.GetLightsUnderParent(FloodlightParentTransform);
-				Logger.LogInfo($"Found {floodlights.Count} floodlights in scene SampleSceneRelay");
-
-				foreach (Light light in floodlights)
-				{
-					light.gameObject.TryGetComponent<UnityEngine.Rendering.HighDefinition.HDAdditionalLightData>(out var hdLight);
-					if (hdLight != null)
-					{
-						hdLight.SetIntensity(FloodlightIntensity);
-						hdLight.SetSpotAngle(FloodlightAngle);
-						hdLight.SetRange(FloodlightRange);
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				Logger.LogWarning($"Error while trying to modify floodlights: {ex}");
-			}
+			Floodlights.Clear();
 		}
 	}
 }
