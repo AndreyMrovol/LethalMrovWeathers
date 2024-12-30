@@ -154,7 +154,8 @@ namespace MrovWeathers
 						light.gameObject.TryGetComponent<UnityEngine.Rendering.HighDefinition.HDAdditionalLightData>(out var hdLight);
 						if (hdLight != null)
 						{
-							hdLight.SetIntensity(600);
+							hdLight.SetIntensity(900);
+							hdLight.SetRange(80);
 						}
 						continue;
 					}
