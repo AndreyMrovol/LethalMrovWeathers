@@ -59,15 +59,6 @@
         <PackageReference Include="LethalCompany.GameLibs.Steam" Version="*-*" Publicize="true"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <!-- this is not really required -->
-        <!-- <PackageReference Include="TeamBMX.LobbyCompatibility" Version="1.0.1" /> -->
-
-        <!-- <PackageReference Include="Evaisa.LethalLib" Version="0.16.0" /> -->
-
-        <!-- <Reference Include="MMHOOK_Assembly-CSharp"><HintPath>../lib/MMHOOK_Assembly-CSharp.dll</HintPath></Reference> -->
-    </ItemGroup>
-
     <!-- minver reference -->
     <ItemGroup>
         <PackageReference Include="MinVer" Version="4.*" PrivateAssets="all" Private="false"/>
