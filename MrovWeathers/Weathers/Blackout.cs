@@ -137,6 +137,9 @@ namespace MrovWeathers
 
 			LungProp currentApparatus = UnityEngine.Object.FindObjectOfType<LungProp>();
 
+			ItemDropship itemDropship = UnityEngine.Object.FindObjectOfType<ItemDropship>();
+			List<Light> LightsInDropship = LightUtils.GetLightsUnderParent(itemDropship.transform);
+
 			// disable all lights in the level's scene
 			AllPoweredLights = LightUtils.GetLightsInScene(StartOfRound.Instance.currentLevel.sceneName);
 			Logger.LogInfo($"Found {AllPoweredLights.Count} lights in scene {StartOfRound.Instance.currentLevel.sceneName}");
@@ -155,6 +158,12 @@ namespace MrovWeathers
 						}
 						continue;
 					}
+				}
+
+				if (LightsInDropship.Contains(light))
+				{
+					Logger.LogDebug($"Skipping light {light.name} (parent {light.transform.parent.name})");
+					continue;
 				}
 
 				Logger.LogDebug($"Disabling light {light.name} (parent {light.transform.parent.name})");
