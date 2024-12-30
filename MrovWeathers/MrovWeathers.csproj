@@ -32,6 +32,8 @@
 
     <PropertyGroup>
         <GameDirectory>V:\Steam\steamapps\common\Lethal Company</GameDirectory>
+        <LibraryDirectory>../lib</LibraryDirectory>
+        <DebugLibraryDirectory>V:\LC-ModLibraries</DebugLibraryDirectory>
     </PropertyGroup>
 
     <ItemGroup>
@@ -76,6 +78,12 @@
         <Exec Command="netcode-patch -nv 1.5.2 &quot;$(TargetPath)&quot; @(ReferencePathWithRefAssemblies->'&quot;%(Identity)&quot;', ' ')"/>
     </Target>
 
+    <PropertyGroup>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>embedded</DebugType>
+        <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
+    </PropertyGroup>
+
     <!-- minver check for the tag name -->
     <PropertyGroup>
         <MinVerDefaultPreReleaseIdentifiers>dev</MinVerDefaultPreReleaseIdentifiers>
@@ -109,4 +117,9 @@
     <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all"/>
     </ItemGroup>
+
+    <Target Name="CopyToDebugProfile" AfterTargets="NetcodePatch" Condition="'$(Configuration)' == 'Debug'">
+        <Message Importance="high" Text="Copying To LibraryDir" />
+        <Copy SourceFiles="$(TargetDir)$(AssemblyName).dll" DestinationFolder="$(DebugLibraryDirectory)" />
+    </Target>
 </Project>
