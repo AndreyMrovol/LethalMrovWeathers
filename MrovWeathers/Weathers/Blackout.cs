@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.SceneManagement;
+using WeatherRegistry;
 
 namespace MrovWeathers
 {
@@ -150,7 +152,7 @@ namespace MrovWeathers
 				{
 					if (light.transform.parent == currentApparatus.gameObject.transform)
 					{
-						Plugin.logger.LogDebug($"Skipping light {light.name} (parent {light.transform.parent.name})");
+						Logger.LogDebug($"Skipping light {light.name} (parent {light.transform.parent.name})");
 
 						light.gameObject.TryGetComponent<UnityEngine.Rendering.HighDefinition.HDAdditionalLightData>(out var hdLight);
 						if (hdLight != null)
@@ -202,7 +204,7 @@ namespace MrovWeathers
 
 				foreach (Light light in floodlights)
 				{
-					light.gameObject.TryGetComponent<UnityEngine.Rendering.HighDefinition.HDAdditionalLightData>(out var hdLight);
+					light.gameObject.TryGetComponent<HDAdditionalLightData>(out var hdLight);
 					if (hdLight != null)
 					{
 						hdLight.SetIntensity(30000);
