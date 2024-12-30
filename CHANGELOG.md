@@ -1,3 +1,7 @@
+# 0.0.3
+
+- fixed README not being updated 😶
+
 # 0.0.2
 
 - fixed README not including `Cloudy` weather
