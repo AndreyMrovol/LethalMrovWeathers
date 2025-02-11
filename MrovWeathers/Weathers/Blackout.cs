@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,6 @@ namespace MrovWeathers
 
 		List<Light> AllPoweredLights = [];
 		List<HDAdditionalLightData> Floodlights = [];
-
 
 		private float FloodlightRange = 44;
 		private float FloodlightAngle = 116.7f;
@@ -142,6 +142,12 @@ namespace MrovWeathers
 
 			ItemDropship itemDropship = UnityEngine.Object.FindObjectOfType<ItemDropship>();
 			List<Light> LightsInDropship = LightUtils.GetLightsUnderParent(itemDropship.transform);
+			List<Light> TurretLights = SceneManager
+				.GetSceneByName(StartOfRound.Instance.currentLevel.sceneName)
+				.GetRootGameObjects()
+				.Where(rootObject => rootObject.name.Contains("Turret"))
+				.SelectMany(turret => LightUtils.GetLightsUnderParent(turret.transform))
+				.ToList();
 
 			// disable all lights in the level's scene
 			AllPoweredLights = LightUtils.GetLightsInScene(StartOfRound.Instance.currentLevel.sceneName);
@@ -170,6 +176,13 @@ namespace MrovWeathers
 					continue;
 				}
 
+				// skip turret lights (solution needs improvement!)
+				if (TurretLights.Contains(light))
+				{
+					Logger.LogDebug($"Skipping turret light {light.name} (parent {light.transform.parent.name})");
+					continue;
+				}
+
 				Logger.LogDebug($"Disabling light {light.name} (parent {light.transform.parent.name})");
 				light.gameObject.SetActive(false);
 			}
@@ -195,7 +208,6 @@ namespace MrovWeathers
 			}
 
 			// improve the range of floodlights
-			// it's like that because of imperium race-condition
 			try
 			{
 				Transform FloodlightParentTransform = GameObject.Find("ShipLightsPost").GetComponent<Transform>();
