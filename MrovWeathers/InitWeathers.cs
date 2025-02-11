@@ -39,14 +39,27 @@ namespace MrovWeathers
 
 		public static void InitBlackout()
 		{
+			var BlackoutAssets = AssetBundle.LoadFromFile(Path.Combine(Path.GetDirectoryName(Plugin.PluginInformation.Location), "blackout"));
+			// if (BlackoutAssets == null)
+			// {
+			// 	Debug.LogError("Failed to load Blackout asset bundle");
+			// 	return;
+			// }
+
+			// GameObject CustomPass = BlackoutAssets.LoadAsset<GameObject>("FogTest");
+			// // if (CustomPass == null)
+			// // {
+			// // 	Debug.LogError("Failed to load BlackoutCustomPass asset");
+			// // 	return;
+			// // }
+			// CustomPass = GameObject.Instantiate(CustomPass);
+
+			// AnimationClip blackoutClip = BlackoutAssets.LoadAsset<AnimationClip>("BlackoutSunClip");
+
 			GameObject blackoutObject = GameObject.Instantiate(new GameObject() { name = "BlackoutWeather" });
+			// CustomPass.transform.SetParent(blackoutObject.transform);
 			blackoutObject.hideFlags = HideFlags.HideAndDontSave;
 			blackoutObject.AddComponent<Blackout>();
-
-			GameObject.DontDestroyOnLoad(blackoutObject);
-
-			var BlackoutAssets = AssetBundle.LoadFromFile(Path.Combine(Path.GetDirectoryName(Plugin.PluginInformation.Location), "blackout"));
-			AnimationClip blackoutClip = BlackoutAssets.LoadAsset<AnimationClip>("BlackoutSunClip");
 
 			Blackout = new("Blackout", new(null, blackoutObject) { SunAnimatorBool = "eclipse", })
 			{
@@ -60,7 +73,7 @@ namespace MrovWeathers
 					LevelWeights = new("Rend@200; Dine@200; Titan@200"),
 					WeatherToWeatherWeights = new("None@200; Cloudy@250")
 				},
-				AnimationClip = blackoutClip
+				// AnimationClip = blackoutClip
 			};
 			WeatherRegistry.WeatherManager.RegisterWeather(Blackout);
 		}
