@@ -22,9 +22,16 @@ namespace MrovWeathers
 			logger = Logger;
 			harmony.PatchAll();
 
+			ConfigManager.Init(Config);
 			PluginInformation = Info;
 
 			InitWeathers.Init();
+
+			WeatherRegistry.EventManager.ShipLanding.AddListener(args => FoggyPatches.ToggleFogExclusionZones(args.level, false));
+			WeatherRegistry.EventManager.DisableAllWeathers.AddListener(
+				() => FoggyPatches.ToggleFogExclusionZones(StartOfRound.Instance.currentLevel, true)
+			);
+			WeatherRegistry.EventManager.SetupFinished.AddListener(() => FoggyPatches.CreateEffectOverrides());
 
 			// Plugin startup logic
 			Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
