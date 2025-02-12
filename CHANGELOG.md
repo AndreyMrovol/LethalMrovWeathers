@@ -1,3 +1,7 @@
+# 0.0.5
+
+- fixed the placeholders not working in the config (thanks, `dopadream`!)
+
 # 0.0.4
 
 - fixed an issue where turret lights would be disabled during `Blackout`

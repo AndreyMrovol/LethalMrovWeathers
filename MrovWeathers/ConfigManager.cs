@@ -1,3 +1,4 @@
+using System;
 using BepInEx.Configuration;
 using WeatherRegistry;
 
@@ -14,6 +15,11 @@ namespace MrovWeathers
 		public void CreateConfigEntry(string configTitle, ConfigDescription configDescription = null)
 		{
 			ConfigEntry = ConfigManager.configFile.Bind($"Foggy", configTitle, DefaultValue, configDescription);
+		}
+
+		public override SelectableLevel[] Value
+		{
+			get { return ConfigHelper.ConvertStringToLevels(this.ConfigEntry.Value); }
 		}
 	}
 
