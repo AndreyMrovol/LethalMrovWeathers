@@ -1,3 +1,8 @@
+# 0.0.6
+
+- fixed an issue with the asset bundle not loading properly
+- added an option to ignore disabling certain lights (thanks, `nikkidarkmatter`!)
+
 # 0.0.5
 
 - fixed the placeholders not working in the config (thanks, `dopadream`!)
