@@ -149,6 +149,13 @@ namespace MrovWeathers
 				.SelectMany(turret => LightUtils.GetLightsUnderParent(turret.transform))
 				.ToList();
 
+			// get all objects named `BlackoutIgnore` in the scene, then get their lights
+			List<Light> BlackoutIgnoreObjects = GameObject
+				.FindObjectsOfType<GameObject>()
+				.Where(obj => obj.name == "BlackoutIgnore")
+				.SelectMany(obj => LightUtils.GetLightsUnderParent(obj.transform))
+				.ToList();
+
 			// disable all lights in the level's scene
 			AllPoweredLights = LightUtils.GetLightsInScene(StartOfRound.Instance.currentLevel.sceneName);
 			Logger.LogInfo($"Found {AllPoweredLights.Count} lights in scene {StartOfRound.Instance.currentLevel.sceneName}");
@@ -180,6 +187,12 @@ namespace MrovWeathers
 				if (TurretLights.Contains(light))
 				{
 					Logger.LogDebug($"Skipping turret light {light.name} (parent {light.transform.parent.name})");
+					continue;
+				}
+
+				if (BlackoutIgnoreObjects.Contains(light))
+				{
+					Logger.LogDebug($"Skipping light added to ignore-list {light.name} (parent {light.transform.parent.name})");
 					continue;
 				}
 
