@@ -39,7 +39,7 @@ namespace MrovWeathers
 
 		public static void InitBlackout()
 		{
-			var BlackoutAssets = AssetBundle.LoadFromFile(Path.Combine(Path.GetDirectoryName(Plugin.PluginInformation.Location), "blackout"));
+			// var BlackoutAssets = AssetBundle.LoadFromFile(Path.Combine(Path.GetDirectoryName(Plugin.PluginInformation.Location), "blackout"));
 			// if (BlackoutAssets == null)
 			// {
 			// 	Debug.LogError("Failed to load Blackout asset bundle");
