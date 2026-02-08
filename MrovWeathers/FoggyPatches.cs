@@ -41,7 +41,8 @@ namespace MrovWeathers
 					continue;
 				}
 
-				WeatherEffectOverride effectOverride = new(foggyWeather, level, newFoggy);
+				WeatherEffectOverride effectOverride =
+					new(foggyWeather, level, newFoggy, "SuperFoggy", WeatherRegistry.Utils.ColorConverter.ToTMPColorGradient(Color.red));
 			}
 		}
 
